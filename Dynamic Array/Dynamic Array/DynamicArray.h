@@ -18,9 +18,10 @@ public:
 	~DynamicArray();
 	DynamicArray(const DynamicArray<T>& copyArray);
 
-	DynamicArray& operator= (const DynamicArray<T>& copyArray);
+	DynamicArray<T>& operator= (const DynamicArray<T>& copyArray);
 	const T& operator[](const unsigned int position) const;
 	T& operator[](const unsigned int position);
+	DynamicArray<T>& operator+= (const DynamicArray<T>& other);
 
 	void clear();
 	void create(unsigned int size = 10);
@@ -29,11 +30,26 @@ public:
 	void empty();
 	bool isEmpty();
 
+
 	void pushAt(unsigned int position, const T& new_t);
 	void push(const T& new_t);
 	void erase(const unsigned int position);
 };
 
+template<typename T>
+DynamicArray<T>& DynamicArray<T>::operator+= (const DynamicArray<T>& other) {
+	unsigned int size = other.getSize();
+	for (unsigned int i = 0; i < size; i++)
+		push(other[i]);
+	return *this;
+}
+
+template<typename T>
+DynamicArray<T> operator+ (const DynamicArray<T>& lhs, const DynamicArray<T>& rhs) {
+	DynamicArray<T> temp = lhs;
+	temp += rhs;
+	return temp;
+}
 
 template<typename T>
 void DynamicArray<T>::pushAt(unsigned int position, const T& new_t) {
@@ -81,9 +97,7 @@ DynamicArray<T>& DynamicArray<T>::operator= (const DynamicArray<T>& copyArray) {
 
 template<typename T>
 DynamicArray<T>::DynamicArray(const DynamicArray<T>& copyArray) {
-	if (this != &copyArray) {
-		copy(copyArray);
-	}
+	copy(copyArray);
 }
 
 template<typename T>

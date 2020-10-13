@@ -44,7 +44,7 @@ void DynamicArray<T>::swap(DynamicArray<T>& other){
 template<typename T>
 DynamicArray<T>& DynamicArray<T>::operator+= (const DynamicArray<T>& other) {
 	unsigned size = other.getSize();
-	for (unsigned i = 0; i < size; i++)
+	for (unsigned i = 0; i < size; ++i)
 		push(other[i]);
 	return *this;
 }
@@ -61,9 +61,9 @@ void DynamicArray<T>::pushAt(unsigned position, const T& new_t) {
 	if (currentElements == maxElements)
 		resizeArray();
 	currentElements++;
-	for (unsigned i = currentElements-1; i > position; i--) {
+	for (unsigned i = currentElements-1; i > position; --i)
 		t_array[i] = t_array[i - 1];
-	}
+	
 	t_array[position] = new_t;
 }
 
@@ -71,7 +71,7 @@ template<typename T>
 void DynamicArray<T>::erase(const unsigned position) {
 	if (position >= currentElements)
 		return;
-	for (unsigned i = position; i < currentElements - 1; i++)
+	for (unsigned i = position; i < currentElements - 1; ++i)
 		t_array[i] = t_array[i+1];
 	currentElements--;
 }
@@ -109,7 +109,7 @@ template<typename T>
 void DynamicArray<T>::resizeArray() {
 	maxElements *= 1.5;
 	T* buffer = new T[maxElements];
-	for (unsigned i = 0; i < currentElements; i++)
+	for (unsigned i = 0; i < currentElements; ++i)
 		buffer[i] = t_array[i];
 	delete[] t_array;
 	t_array = buffer;
@@ -119,7 +119,7 @@ template<typename T>
 inline void DynamicArray<T>::copy(const DynamicArray<T>& copyArray) {
 	create(copyArray.maxElements);
 	currentElements = copyArray.currentElements;
-	for (unsigned i = 0; i < currentElements; i++)
+	for (unsigned i = 0; i < currentElements; ++i)
 		t_array[i] = copyArray.t_array[i];
 }
 
